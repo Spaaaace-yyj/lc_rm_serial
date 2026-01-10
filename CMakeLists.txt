@@ -9,6 +9,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(serial_driver REQUIRED)
+find_package(geometry_msgs REQUIRED)
 
 
 # find_package(ament_cmake_auto REQUIRED)
@@ -27,7 +28,7 @@ if(BUILD_TESTING)
 endif()
 
 add_executable(lc_serial_test src/lc_serial_test.cpp src/crc_check.cpp src/serial_process.cpp)
-ament_target_dependencies(lc_serial_test rclcpp serial_driver)
+ament_target_dependencies(lc_serial_test rclcpp serial_driver geometry_msgs std_msgs)
 
 install(TARGETS
   lc_serial_test

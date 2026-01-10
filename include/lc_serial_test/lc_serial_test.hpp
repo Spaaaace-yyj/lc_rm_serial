@@ -12,6 +12,7 @@
 
 // ROS2
 #include <rclcpp/rclcpp.hpp>
+#include "geometry_msgs/msg/twist.hpp"
 
 // serial_driver
 #include <serial_driver/serial_driver.hpp>
@@ -96,18 +97,28 @@ class LcSerialTestNode : public rclcpp::Node
 public:
     explicit LcSerialTestNode(const rclcpp::NodeOptions & options);
 
-    ~LcSerialTestNode() = default;
+    ~LcSerialTestNode();
 private:
     void receiveLoop();
 
     void DecodeData();
 
     void SendData();
+
+	void OpenPort();
+private:
+	void navigation_callback(const geometry_msgs::msg::Twist::SharedPtr msg);
+
 private:
     std::vector<uint8_t> buffer;
-    uint8_t send_buff[VISION_SEND_SIZE];
+
 
     Vision_Recv_s recv_data;
+	Vision_Send_s send_data;
+
+private:
+	rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_sub_;
+	geometry_msgs::msg::Twist latest_cmd_vel_;
 
 private:
 
